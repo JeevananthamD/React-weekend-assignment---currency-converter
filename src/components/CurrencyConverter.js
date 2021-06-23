@@ -14,7 +14,7 @@ function CurrencyConverter() {
         (async function(){
         let response = await fetch("http://api.exchangeratesapi.io/v1/latest?access_key=0460356ea64f6a252fa77bc1caa8f8b6");
         let json = await response.json();
-        first.current.value = (1).toFixed(2);
+        first.current.value = (0).toFixed(2);
         second.current.value = ((json.rates.INR * first.current.value)/ json.rates.USD).toFixed(2);
         setRates(json.rates);
         })();
@@ -47,13 +47,13 @@ function CurrencyConverter() {
             <h2>Currency Converter</h2>
             <div>
                 <select className="mt-5 me-1" value={fc} onChange={(e) => firstCurrency(e.target.value)}>
-                    {(rates)? Object.entries(rates).map((i,j) => <Option key={j} country={i}/> ): ""}
+                    {rates && Object.entries(rates).map((i,j) => (i[0]!=sc)?<Option key={j} country={i}/>:"")}
                 </select> 
                 <input ref={first} onChange={(e) => firstInput(e.target.value)}/>
             </div>
             <div>
                 <select className="mt-5 me-1" value={sc} onChange={(e) => secondCurrency(e.target.value)}>
-                    {(rates)? Object.entries(rates).map((i,j) => <Option key={j} country={i}/> ): ""}
+                    {rates && Object.entries(rates).map((i,j) => (i[0]!=fc)?<Option key={j} country={i}/>:"" )}
                 </select> 
                 <input ref={second} onChange={(e) => secondInput(e.target.value)}/>
             </div>
